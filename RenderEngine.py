@@ -1,5 +1,6 @@
 # This is the render engine for a game of Yahtzee in OOP making use of Pygame
 
+import random
 from time import sleep
 import pygame
 
@@ -74,6 +75,73 @@ class RenderEngine:
             self.screen.blit(text_surface, text_rect)
             i += 1
         pygame.display.update()
+
+    def roll_dice(self, dice, number_of_dice):
+        self.number_of_dice = number_of_dice
+        # Roll the dice
+        self.screen.fill(self.GREEN)
+        self.render_scores(self.scores)
+        # The way this works is there are 5 static dice and it will roll all the dice (staying still - updating the image)
+        # and stop one by one.
+        # The dice will be rendered in a 1*5 grid
+        # The dice will be rendered at the bottom of the screen
+        self.display_dice = []
+        for j in range(0, self.number_of_dice*10 + 1): # Number of times they update - depending on the index, it will roll index*10 times
+            self.display_dice = [random.randint(0, 5) for x in range(0, 5)]
+            if j >= 10:
+                self.display_dice[0] = dice[0]
+            if j >= 20:
+                self.display_dice[1] = dice[1]
+            if j >= 30:
+                self.display_dice[2] = dice[2]
+            if j >= 40:
+                self.display_dice[3] = dice[3]
+            if j >= 50:
+                self.display_dice[4] = dice[4]
+            for i in range(0, self.number_of_dice):
+                self.screen.blit(self.dice[self.display_dice[i]-1], (i * 100, self.HEIGHT - 100))
+
+            self.update_display() # Prevent not responding
+
+            sleep(0.1)
+            pygame.display.update()
+
+    def get_input(self):
+        # Draw confimation buttons
+        self.draw_stop_button()
+        self.remove_dice = []
+        while True:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    self.running = False
+                    self.quit()
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    mouse_pos = event.pos
+                    # Check if the mouse is in the area of the dice
+                    if mouse_pos[0] < self.number_of_dice * 100 and mouse_pos[1] > self.HEIGHT - 100:
+                        # Check which dice it is
+                        self.remove_dice.append(mouse_pos[0] // 100)
+                    if (mouse_pos[0] > self.GAME_WIDTH - 100) and mouse_pos[0] < self.GAME_WIDTH and mouse_pos[1] > self.HEIGHT - 100:
+                        # Check if the stop button was pressed
+                        print(self.remove_dice)
+
+    def draw_stop_button(self):
+        # In the gap between the dice and the scores, draw a stop button
+        # Draw a rectangle say next roll
+        pygame.draw.rect(self.screen, self.RED, (self.GAME_WIDTH - 100, self.HEIGHT - 100, 100, 100))
+        # Draw the text
+        text = pygame.font.Font(None, 36)
+        text_surface = text.render("Stop", True, self.WHITE)
+        text_rect = text_surface.get_rect(center=(self.GAME_WIDTH - 50, self.HEIGHT - 50))
+        self.screen.blit(text_surface, text_rect)
+        pygame.display.update()
+
+    def update_display(self):
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                self.running = False
+                self.quit()
+
 
     def quit(self):
         # Quit the game
