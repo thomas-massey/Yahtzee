@@ -27,6 +27,7 @@ class GameEngine:
                 "Chance": 0,
             }
         while self.game_active:
-            
-            self.render.render_game(self)
+            # Temp hardcodded scores
+            self.scores = {"Aces": [0, 0], "Twos": [0, 0], "Threes": [0, 0], "Fours": [0, 0], "Fives": [0, 0], "Sixes": [0, 0], "Three of a Kind": [0, 0], "Four of a Kind": [0, 0], "Full House": [0, 0], "Small Straight": [0, 0], "Large Straight": [0, 0], "Yahtzee": [0, 0], "Chance": [0, 0], "Total": [0, 0]}
+            self.render.render_game(self, self.scores)
             

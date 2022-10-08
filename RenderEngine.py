@@ -25,10 +25,9 @@ class RenderEngine:
         self.screen.fill(self.WHITE)
         pygame.display.update()
 
-    def render_game(self, game):
+    def render_game(self, game, scores):
+        self.scores = scores
         self.screen.fill(self.GREEN)
-        # Temp hardcodded scores
-        scores = {"Aces": [0, 0], "Twos": [0, 0], "Threes": [0, 0], "Fours": [0, 0], "Fives": [0, 0], "Sixes": [0, 0], "Total": [0, 0]}
         self.render_scores(scores)
         
     def render_scores(self, scores):
@@ -41,10 +40,10 @@ class RenderEngine:
         
         # Render the table by drawing a grid of lines - drawing them to the right of the game in teh self.WIDTH area (300px)
         # Draw the vertical lines
-        for i in range(1, 3):
+        for i in range(0, 3):
             pygame.draw.line(self.screen, self.BLACK, (self.GAME_WIDTH + (i * 100), 0), (self.GAME_WIDTH + (i * 100), self.HEIGHT), 1)
         # Draw the horizontal lines
-        for i in range(1, 14):
+        for i in range(1, 15):
             pygame.draw.line(self.screen, self.BLACK, (self.GAME_WIDTH, i * 30), (self.WIDTH, i * 30), 1)
         # Render the text
         text = pygame.font.Font(None, 36)
@@ -57,7 +56,14 @@ class RenderEngine:
         # Render the scores
         i = 1
         for key in scores:
-            text_surface = text.render(key, True, self.BLACK)
+            # If the text fits within the 100 px width, render it in the middle
+            if len(key) * 10 < 100:
+                text_surface = text.render(key, True, self.BLACK)
+            else:
+                # Fit it within the 100 px width by changning the font size
+                text = pygame.font.Font(None, 20)
+                text_surface = text.render(key, True, self.BLACK)
+            text = pygame.font.Font(None, 36)
             text_rect = text_surface.get_rect(center=(self.GAME_WIDTH + 50, i * 30 + 15))
             self.screen.blit(text_surface, text_rect)
             text_surface = text.render(str(scores[key][0]), True, self.BLACK)
@@ -67,7 +73,6 @@ class RenderEngine:
             text_rect = text_surface.get_rect(center=(self.GAME_WIDTH + 250, i * 30 + 15))
             self.screen.blit(text_surface, text_rect)
             i += 1
-
         pygame.display.update()
 
     def quit(self):
