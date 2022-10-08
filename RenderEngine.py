@@ -11,6 +11,20 @@ class RenderEngine:
         self.clock = pygame.time.Clock()
         self.running = True
 
+    def load_screen(self):
+        self.screen.fill(self.WHITE)
+        text = pygame.font.Font(None, 36)
+        text_surface = text.render("Yahtzee", True, self.BLACK)
+        text_rect = text_surface.get_rect(center=(self.WIDTH/2, self.HEIGHT/2))
+        self.screen.blit(text_surface, text_rect)
+        pygame.display.flip()
+        self.clock.tick(60)
+        pygame.display.update()
+        pygame.time.wait(1000)
+        self.screen.fill(self.WHITE)
+        pygame.display.update()
+
+
     def render_game(self, game):
         self.screen.fill(self.GREEN)
         

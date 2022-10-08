@@ -8,5 +8,4 @@ class GameEngine:
         self.start()
 
     def start(self):
-        print("Hi")
-        self.render()
+        self.render.load_screen()
