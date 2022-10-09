@@ -10,4 +10,5 @@ pip install pygame
 
 ## Demo
 
-[Video](https://user-images.githubusercontent.com/76120358/194731904-04166acf-4799-4af3-86bd-9f5c963fae9f.mp4)
+https://user-images.githubusercontent.com/76120358/194731943-f8a7307a-2608-455b-9ed6-16fe6fd81722.mp4
+
