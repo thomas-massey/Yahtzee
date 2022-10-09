@@ -52,7 +52,7 @@ class RenderEngine:
         # etc
         # Total 0 0
         
-        # Render the table by drawing a grid of lines - drawing them to the right of the game in teh self.WIDTH area (300px)
+        # Render the table by drawing a grid of lines - drawing them to the right of the game in the self.WIDTH area (300px)
         # Draw the vertical lines
         for i in range(0, 3):
             pygame.draw.line(self.screen, self.BLACK, (self.GAME_WIDTH + (i * 100), 0), (self.GAME_WIDTH + (i * 100), self.HEIGHT), 1)
